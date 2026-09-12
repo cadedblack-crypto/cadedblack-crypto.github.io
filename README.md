@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autism 7</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&display=swap');
+
+        :root {
+            --bg-dark: #050505;
+            --bg-panel: #111111;
+            --text: #f7d94c;
+            --muted: rgba(247, 217, 76, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            font-family: 'Orbitron', Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+        }
+
+        .shader-shell {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, #1b1b1b 0%, #0a0a0a 55%, #020202 100%);
+            overflow: hidden;
+        }
+
+        #shader {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .title-wrap {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.02));
+        }
+
+        .title {
+            position: relative;
+            font-size: clamp(4rem, 10vw, 14rem);
+            line-height: 0.8;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: rgba(255,255,255,0.98);
+            mix-blend-mode: difference;
+            filter: invert(1) contrast(2.8) saturate(1.8) drop-shadow(0 0 8px rgba(255,255,255,0.24));
+            text-shadow:
+                0 0 18px rgba(255,255,255,0.14),
+                0 0 32px rgba(247, 217, 76, 0.12),
+                0 0 54px rgba(247, 217, 76, 0.08);
+            opacity: 0;
+            transform-origin: center center;
+            transform: translate3d(0, 50vh, -500px) scale(2.6) rotate(-18deg);
+            animation: title-in 2s cubic-bezier(0.18, 0.8, 0.2, 1) forwards;
+            will-change: transform, opacity, filter;
+        }
+
+        .title::before {
+            content: "Autism 7";
+            position: absolute;
+            inset: 0;
+            color: rgba(0, 0, 0, 0.18);
+            transform: translate(0.08em, 0.08em);
+            filter: blur(0.04em);
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        .title::after {
+            content: "";
+            position: absolute;
+            inset: 6% 3% 12% 3%;
+            background: linear-gradient(
+                180deg,
+                rgba(255,255,255,0.08),
+                rgba(255,255,255,0.0) 32%,
+                rgba(0,0,0,0.08) 72%,
+                rgba(255,255,255,0.02)
+            );
+            mix-blend-mode: screen;
+            border-radius: 18px;
+            pointer-events: none;
+        }
+
+        .play-btn {
+            pointer-events: auto;
+            appearance: none;
+            border: 2px solid rgba(247, 217, 76, 0.96);
+            background: linear-gradient(180deg, rgba(8,8,8,0.92), rgba(18,18,14,0.82));
+            color: #f7d94c;
+            font-family: 'Orbitron', Arial, sans-serif;
+            font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            padding: 1rem 2.5rem;
+            cursor: pointer;
+            box-shadow:
+                0 0 0 1px rgba(247, 217, 76, 0.28),
+                0 0 18px rgba(247, 217, 76, 0.16),
+                inset 0 0 14px rgba(247, 217, 76, 0.07);
+            opacity: 0;
+            transform: translateY(26px) scale(0.9);
+            animation: button-in 1.6s ease 0.45s forwards;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, filter 0.22s ease;
+        }
+
+        .play-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow:
+                0 0 0 1px rgba(247, 217, 76, 0.4),
+                0 0 22px rgba(247, 217, 76, 0.26),
+                0 0 38px rgba(247, 217, 76, 0.12),
+                inset 0 0 18px rgba(247, 217, 76, 0.11);
+            background: linear-gradient(180deg, rgba(18,18,10,0.96), rgba(28,28,18,0.88));
+            filter: brightness(1.12);
+        }
+
+        .play-btn:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow:
+                0 0 0 1px rgba(247, 217, 76, 0.26),
+                0 0 14px rgba(247, 217, 76, 0.15),
+                inset 0 0 24px rgba(247, 217, 76, 0.12);
+        }
+
+        .screen-flash {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            animation: none;
+        }
+
+        @keyframes title-in {
+            0% {
+                opacity: 0;
+                filter: invert(1) contrast(1.8) blur(18px);
+                transform: translate3d(0, 54vh, -500px) scale(3.2) rotate(-22deg);
+            }
+            30% {
+                opacity: 0.15;
+                filter: invert(1) contrast(1.8) blur(8px);
+            }
+            55% {
+                opacity: 1;
+                filter: invert(1) contrast(1.8) blur(2px);
+                transform: translate3d(0, 18vh, -160px) scale(1.6) rotate(-8deg);
+            }
+            100% {
+                opacity: 1;
+                filter: invert(1) contrast(1.8) blur(0);
+                transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes button-in {
+            0% {
+                opacity: 0;
+                transform: translateY(26px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes flash-to-white {
+            0% {
+                opacity: 0;
+                filter: brightness(1);
+            }
+            16% {
+                opacity: 0.8;
+                filter: brightness(2.1);
+            }
+            38% {
+                opacity: 1;
+                filter: brightness(2.8);
+            }
+            100% {
+                opacity: 1;
+                filter: brightness(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shader-shell">
+        <div id="shader"></div>
+        <div class="screen-flash" aria-hidden="true"></div>
+
+        <div class="title-wrap" aria-label="Autism 7 title">
+            <div class="title">Autism 7</div>
+            <button class="play-btn" type="button">Play</button>
+        </div>
+    </div>
+
+    <script src="balatroShader.js"></script>
+    <script>
+        const fx = new BalatroShader({
+            container: "#shader",
+            colours: { c1: "#F7D94C", c2: "#FFE77A", c3: "#000000" },
+            speed: 1.4,
+            contrast: 2,
+            spinAmount: 0.5,
+            pixelSizeFac: 1000,
+            spinEase: 0.5,
+            zoom: 30,
+            offsetX: -0.12,
+            offsetY: 0
+        });
+
+        const flash = document.querySelector('.screen-flash');
+        const button = document.querySelector('.play-btn');
+
+        button.addEventListener('click', () => {
+            flash.style.animation = 'none';
+            void flash.offsetWidth;
+            flash.style.animation = 'flash-to-white 2.2s ease-in-out forwards';
+            button.disabled = true;
+            button.style.pointerEvents = 'none';
+        });
+    </script>
+</body>
+</html>
