@@ -28,14 +28,26 @@
         }
 
         body {
-            display: grid;
-            place-items: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        .site-frame {
+            position: relative;
+            width: min(100vw, 1400px);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
 
         .shader-shell {
             position: relative;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background: radial-gradient(circle at center, #1b1b1b 0%, #0a0a0a 55%, #020202 100%);
             overflow: hidden;
         }
@@ -214,13 +226,15 @@
     </style>
 </head>
 <body>
-    <div class="shader-shell">
-        <div id="shader"></div>
-        <div class="screen-flash" aria-hidden="true"></div>
+    <div class="site-frame">
+        <div class="shader-shell">
+            <div id="shader"></div>
+            <div class="screen-flash" aria-hidden="true"></div>
 
-        <div class="title-wrap" aria-label="Autism 7 title">
-            <div class="title">Autism 7</div>
-            <button class="play-btn" type="button">Play</button>
+            <div class="title-wrap" aria-label="Autism 7 title">
+                <div class="title">Autism 7</div>
+                <button class="play-btn" type="button">Play</button>
+            </div>
         </div>
     </div>
 
